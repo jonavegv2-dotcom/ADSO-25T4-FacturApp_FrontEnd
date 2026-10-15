@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAXENVÍOS | Soluciones Logísticas</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Arial,sans-serif}
+body{background:#f4f4f4;color:#333}
+header{background:#4B0082;color:white;padding:22px 35px}
+.logo{font-size:36px;font-weight:bold}
+nav{background:#2E0854;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;padding:13px 20px;position:relative;z-index:1000}
+nav>a{color:white;text-decoration:none;font-size:14px;font-weight:600;padding:12px 15px;border-radius:8px}
+nav>a:hover{background:#6A0DAD}
+.dropdown{position:relative;display:inline-block}
+.dropbtn{background:#6A0DAD;color:white;border:0;padding:12px 16px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
+.dropbtn:hover,.dropbtn[aria-expanded="true"]{background:#8525c5}
+.dropdown-content{display:none;position:absolute;top:100%;left:0;width:290px;max-width:calc(100vw - 25px);background:white;border:1px solid #e8e1ef;border-radius:10px;padding:6px;box-shadow:0 8px 24px #0003;z-index:2000}
+.dropdown-content.show{display:block}
+.dropdown-content a{display:block;color:#333;text-decoration:none;font-size:14px;font-weight:500;padding:13px 12px;border-radius:6px;line-height:1.4}
+.dropdown-content a:hover{background:#f3e8ff;color:#4B0082}
+.container{width:95%;max-width:1500px;margin:25px auto;min-height:300px}
+.hero{min-height:430px;display:flex;align-items:center;padding:45px;border-radius:16px;overflow:hidden;color:white;background:linear-gradient(90deg,#2e0854e0,#2e085496),url("https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1800&q=85") center/cover}
+.hero-content{max-width:750px}
+.hero h1{font-size:clamp(36px,5vw,58px);margin-bottom:12px}
+.hero h2{font-size:clamp(22px,3vw,32px);margin-bottom:18px}
+.hero p{font-size:17px;line-height:1.6;margin-bottom:22px}
+.quick-links{display:flex;flex-wrap:wrap;gap:12px}
+.quick-links a{color:white;text-decoration:none;font-size:14px;font-weight:600;padding:11px 15px;background:#ffffff29;border:1px solid #ffffff4d;border-radius:8px}
+.quick-links a:hover{background:#6A0DAD}
+.services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
+.service-card,.module-card{background:white;padding:25px;border-radius:14px;box-shadow:0 5px 20px #00000012;min-width:0}
+.service-card h3{font-size:20px;margin-bottom:15px}
+#moduloPrincipal{display:none;max-width:1000px;margin:25px auto}
+#moduloPrincipal.visible{display:block}
+.module-card{border-top:5px solid #6A0DAD;padding:30px}
+.module-card h2{color:#4B0082;font-size:27px;margin-bottom:10px}
+.module-description{color:#666;margin-bottom:25px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.form-group{display:flex;flex-direction:column;gap:7px;min-width:0}
+.form-group.full-width{grid-column:1/-1}
+.form-group label{font-weight:600;font-size:14px}
+.form-group input,.form-group select,.form-group textarea{width:100%;min-width:0;padding:13px 14px;border:1px solid #d5d5d5;border-radius:7px;font-size:15px;background:white;color:#333;outline:none}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#6A0DAD;box-shadow:0 0 0 3px #6a0dad1a}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.btn-primary,.btn-secondary{border:0;border-radius:7px;padding:13px 22px;font-size:15px;font-weight:600;cursor:pointer}
+.btn-primary{background:#4B0082;color:white}
+.btn-primary:hover{background:#6A0DAD}
+.btn-secondary{background:#eee;color:#333}
+.btn-secondary:hover{background:#ddd}
+.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.option-card{display:block;width:100%;padding:22px;text-align:left;background:#faf7ff;border:1px solid #e5d5f4;border-radius:10px;color:#4B0082;cursor:pointer;transition:.2s}
+.option-card:hover{background:#eee0ff;border-color:#6A0DAD;transform:translateY(-2px)}
+.option-card h3{font-size:18px;margin-bottom:8px}
+.option-card p{font-size:14px;line-height:1.5;color:#555}
+.insurance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.insurance-option{display:flex;align-items:center;gap:12px;padding:17px;background:#faf7ff;border:1px solid #e5d5f4;border-radius:9px;cursor:pointer;color:#4B0082;font-weight:600}
+.insurance-option input{accent-color:#6A0DAD}
+.insurance-detail{display:none;margin-top:22px;padding:20px;border:1px solid #e5d5f4;border-radius:10px}
+.insurance-detail.visible{display:block}
+.insurance-detail h3{color:#4B0082;margin-bottom:12px}
+.module-message{display:none;margin-top:20px;padding:14px;border-radius:7px;background:#f3e8ff;color:#4B0082;line-height:1.5;overflow-wrap:anywhere}
+.module-message.visible{display:block}
+.page-content{margin-top:20px}
+footer{background:#2E0854;color:white;text-align:center;padding:24px;margin-top:35px}
+footer h3{margin-bottom:8px}
+[hidden]{display:none!important}
+@media(max-width:768px){
+ header{padding:20px}.logo{font-size:29px}
+ nav{justify-content:flex-start;gap:6px}
+ .container{width:94%}.hero{min-height:350px;padding:25px}
+ .services-grid,.form-grid,.insurance-grid,.option-grid{grid-template-columns:1fr}
+ .form-group.full-width{grid-column:auto}
+ .module-card{padding:22px 17px}.module-card h2{font-size:24px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🚚 PRAXENVÍOS</div>
+</header>
+
+<nav>
+    <a href="/" id="inicioLink">🏠 Inicio</a>
+
+    <div class="dropdown">
+        <button class="dropbtn" type="button" aria-expanded="false" aria-controls="clientesMenu">👥 Clientes ▼</button>
+        <div class="dropdown-content" id="clientesMenu">
+            <a href="/registrate" data-module="registro">📝 Regístrate</a>
+            <a href="/consulta_envio" data-module="consultaEnvio">📦 Consulta tus envíos</a>
+            <a href="/consulta_facturas" data-module="facturas">🧾 Consulta tus facturas</a>
+            <a href="/cobros_socios" data-module="cobros">💳 Cobros socios</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropbtn" type="button" aria-expanded="false" aria-controls="gestionMenu">Gestión de Envíos ▼</button>
+        <div class="dropdown-content" id="gestionMenu">
+            <a href="/generar_envio" data-module="generarEnvio">📦 Generar Envío</a>
+            <a href="/consulta_envio" data-module="consultaEnvio">🔎 Consulta tu Envío</a>
+            <a href="/se_socio" data-module="socio">🤝 Sé Socio</a>
+            <a href="/casillero_internacional" data-module="casillero">🌎 Casillero Internacional</a>
+            <a href="/seguros" data-module="seguros">🛡️ Seguros</a>
+        </div>
+    </div>
+
+    <!-- NUEVO MENÚ USUARIOS -->
+    <div class="dropdown">
+        <button class="dropbtn" type="button" aria-expanded="false" aria-controls="usuariosMenu">👤 Usuarios ▼</button>
+        <div class="dropdown-content" id="usuariosMenu">
+            <a href="/ingresar_cuenta" data-module="cuenta">🔐 Ingresa a tu cuenta</a>
+            <a href="/praxpay" data-module="praxpay">💳 PRAXPAY</a>
+        </div>
+    </div>
+
+    <!-- NUEVO MENÚ CATEGORÍAS -->
+    <div class="dropdown">
+        <button class="dropbtn" type="button" aria-expanded="false" aria-controls="categoriasMenu">📂 Categorías ▼</button>
+        <div class="dropdown-content" id="categoriasMenu">
+            <a href="/marketplace" data-module="marketplace">🛍️ Market Place</a>
+            <a href="/logistica_corporativa" data-module="corporativa">🏢 Logística corporativa</a>
+            <a href="/logistica_negocio" data-module="negocio">🏪 Logística para tu negocio</a>
+            <a href="/franquicia" data-module="franquicia">🤝 Franquicia</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+
+<section id="inicioContenido">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>PRAXENVÍOS</h1>
+            <h2>Tu logística en movimiento</h2>
+            <p>Envíos nacionales e internacionales, casillero virtual, rastreo y soluciones logísticas para empresas y negocios.</p>
+            <div class="quick-links">
+                <a href="/generar_envio" data-module="generarEnvio">📦 Crear Envío</a>
+                <a href="/consulta_envio" data-module="consultaEnvio">🔎 Rastrear Guía</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-grid">
+        <div class="service-card">
+            <h3>📦 Rastreo de Guía</h3>
+            <form action="/consulta_envio" method="GET">
+                <div class="form-group">
+                    <input name="guia" type="text" placeholder="Ingrese número de guía" required>
+                </div>
+                <div class="form-actions"><button class="btn-primary" type="submit">Rastrear</button></div>
+            </form>
+        </div>
+        <div class="service-card">
+            <h3>🚚 Solicitar Recogida</h3>
+            <form action="/solicitar_recogida" method="POST">
+                <div class="form-group"><input name="ciudad" placeholder="Ciudad" required></div>
+                <div class="form-group" style="margin-top:12px"><input name="direccion" placeholder="Dirección" required></div>
+                <div class="form-actions"><button class="btn-primary" type="submit">Programar Recogida</button></div>
+            </form>
+        </div>
+    </section>
+</section>
+
+<section id="moduloPrincipal">
+
+    <!-- CLIENTES: REGISTRO -->
+    <div class="module-card" id="formRegistro" hidden>
+        <h2>📝 Registro de Cliente</h2>
+        <p class="module-description">Completa tus datos para registrarte en PRAXENVÍOS.</p>
+        <form action="/registrate" method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Nombres *</label><input name="nombres" required></div>
+                <div class="form-group"><label>Apellidos *</label><input name="apellidos" required></div>
+                <div class="form-group"><label>Tipo de documento *</label>
+                    <select name="tipo_documento" required>
+                        <option value="">Selecciona</option><option>CC</option><option>CE</option><option>TI</option><option>Pasaporte</option><option>NIT</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Número de documento *</label><input name="numero_documento" required></div>
+                <div class="form-group"><label>Teléfono de contacto *</label><input name="telefono" type="tel" required></div>
+                <div class="form-group"><label>País *</label><input name="pais" value="Colombia" required></div>
+                <div class="form-group"><label>Ciudad *</label><input name="ciudad" required></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Registrarme</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- CLIENTES: CONSULTAR ENVÍOS -->
+    <div class="module-card" id="formConsultaEnvio" hidden>
+        <h2>📦 Consulta tus envíos</h2>
+        <p class="module-description">Consulta el estado de tu paquete.</p>
+        <form action="/consulta_envio" method="GET">
+            <div class="form-group"><label>Digita tu número de guía o cédula del remitente *</label><input name="guia" placeholder="Número de guía o cédula del remitente" required></div>
+            <div class="form-actions"><button class="btn-primary">Consultar envío</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- CLIENTES: FACTURAS -->
+    <div class="module-card" id="formFacturas" hidden>
+        <h2>🧾 Consulta tus facturas</h2>
+        <p class="module-description">Ingresa tu cédula para consultar tus facturas.</p>
+        <form action="/consulta_facturas" method="GET">
+            <div class="form-group"><label>Digita tu cédula *</label><input name="cedula" required></div>
+            <div class="form-actions"><button class="btn-primary">Consultar facturas</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- CLIENTES: COBROS -->
+    <div class="module-card" id="formCobros" hidden>
+        <h2>💳 Cobros socios</h2>
+        <p class="module-description">Ingresa tu cuenta cliente para consultar la información de tus cobros.</p>
+        <form action="/cobros_socios" method="GET">
+            <div class="form-group"><label>Digita tu cuenta cliente *</label><input name="cuenta_cliente" required></div>
+            <div class="form-actions"><button class="btn-primary">Consultar cobros</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- GENERAR ENVÍO -->
+    <div class="module-card" id="formGenerarEnvio" hidden>
+        <h2>📦 Generar un envío</h2>
+        <p class="module-description">Ingresa los datos del remitente, destinatario y paquete.</p>
+        <form action="/generar_envio" method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Nombre del remitente *</label><input name="remitente" required></div>
+                <div class="form-group"><label>Cédula del remitente *</label><input name="cedula_remitente" required></div>
+                <div class="form-group"><label>Teléfono del remitente *</label><input name="telefono_remitente" type="tel" required></div>
+                <div class="form-group"><label>Ciudad de origen *</label><input name="ciudad_origen" required></div>
+                <div class="form-group full-width"><label>Dirección de recogida *</label><input name="direccion_origen" required></div>
+                <div class="form-group"><label>Nombre del destinatario *</label><input name="destinatario" required></div>
+                <div class="form-group"><label>Teléfono del destinatario *</label><input name="telefono_destinatario" type="tel" required></div>
+                <div class="form-group"><label>Ciudad de destino *</label><input name="ciudad_destino" required></div>
+                <div class="form-group"><label>Dirección de entrega *</label><input name="direccion_destino" required></div>
+                <div class="form-group"><label>Tipo de mercancía *</label>
+                    <select name="tipo_mercancia" required><option value="">Selecciona</option><option>Documentos</option><option>Ropa</option><option>Electrónica</option><option>Otros</option></select>
+                </div>
+                <div class="form-group"><label>Peso aproximado (kg) *</label><input name="peso" type="number" min="0.1" step="0.1" required></div>
+                <div class="form-group"><label>Largo (cm)</label><input name="largo" type="number" min="0"></div>
+                <div class="form-group"><label>Ancho (cm)</label><input name="ancho" type="number" min="0"></div>
+                <div class="form-group"><label>Alto (cm)</label><input name="alto" type="number" min="0"></div>
+                <div class="form-group"><label>Valor declarado (COP)</label><input name="valor_declarado" type="number" min="0"></div>
+                <div class="form-group full-width"><label>Observaciones</label><textarea name="observaciones"></textarea></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Solicitar envío</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- SÉ SOCIO -->
+    <div class="module-card" id="formSocio" hidden>
+        <h2>🤝 Conviértete en socio</h2>
+        <p class="module-description">Selecciona el tipo de alianza que te interesa.</p>
+        <form action="/se_socio" method="POST">
+            <div class="form-grid">
+                <div class="form-group full-width"><label>Tipo de socio *</label>
+                    <select name="tipo_socio" required><option value="">Selecciona</option><option>Comercial</option><option>Aliado con van</option><option>Aliado con local</option></select>
+                </div>
+                <div class="form-group"><label>Nombre o razón social *</label><input name="nombre" required></div>
+                <div class="form-group"><label>Cédula o NIT *</label><input name="documento" required></div>
+                <div class="form-group"><label>Teléfono *</label><input name="telefono" type="tel" required></div>
+                <div class="form-group"><label>Correo electrónico *</label><input name="correo" type="email" required></div>
+                <div class="form-group full-width"><label>Ciudad donde operas *</label><input name="ciudad" required></div>
+                <div class="form-group full-width"><label>Cuéntanos sobre tu propuesta</label><textarea name="descripcion"></textarea></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Enviar solicitud</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- CASILLERO INTERNACIONAL -->
+    <div class="module-card" id="formCasillero" hidden>
+        <h2>🌎 Casillero Internacional</h2>
+        <p class="module-description">Pega el enlace del producto que deseas comprar.</p>
+        <form action="/casillero_internacional" method="POST">
+            <div class="form-grid">
+                <div class="form-group full-width"><label>Pega aquí el link de la página donde deseas realizar tu compra *</label><input name="link_compra" type="url" placeholder="https://..." required></div>
+                <div class="form-group"><label>Nombre del comprador *</label><input name="nombre" required></div>
+                <div class="form-group"><label>Correo electrónico *</label><input name="correo" type="email" required></div>
+                <div class="form-group"><label>País de la tienda *</label><input name="pais_tienda" required></div>
+                <div class="form-group"><label>Nombre o referencia del producto</label><input name="producto"></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Enviar solicitud de compra</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- SEGUROS -->
+    <div class="module-card" id="formSeguros" hidden>
+        <h2>🛡️ Seguros PRAXENVÍOS</h2>
+        <p class="module-description">Selecciona el seguro sobre el que deseas recibir información.</p>
+        <form action="/seguros" method="POST" id="segurosForm">
+            <div class="insurance-grid">
+                <label class="insurance-option"><input type="radio" name="tipo_seguro" value="Seguro mercancía" required>📦 Seguro mercancía</label>
+                <label class="insurance-option"><input type="radio" name="tipo_seguro" value="Seguro vendedores">🏪 Seguro vendedores</label>
+                <label class="insurance-option"><input type="radio" name="tipo_seguro" value="Seguro compradores">🛒 Seguro compradores</label>
+                <label class="insurance-option"><input type="radio" name="tipo_seguro" value="Seguro compra internacional">🌎 Seguro compra internacional</label>
+            </div>
+            <div class="insurance-detail" id="detalleSeguro">
+                <h3 id="tituloSeguro">Información del seguro</h3>
+                <p id="descripcionSeguro" class="module-description"></p>
+                <div class="form-grid">
+                    <div class="form-group"><label>Nombre completo *</label><input name="nombre" required></div>
+                    <div class="form-group"><label>Teléfono *</label><input name="telefono" type="tel" required></div>
+                    <div class="form-group full-width"><label>Descripción del envío o compra *</label><textarea name="descripcion" required></textarea></div>
+                </div>
+                <div class="form-actions"><button class="btn-primary">Solicitar información</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+            </div>
+        </form>
+    </div>
+
+    <!-- NUEVO: INGRESAR A CUENTA -->
+    <div class="module-card" id="formCuenta" hidden>
+        <h2>🔐 Ingresa a tu cuenta</h2>
+        <p class="module-description">Ingresa tus credenciales para acceder a tu cuenta PRAXENVÍOS.</p>
+        <form action="/ingresar_cuenta" method="POST">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="usuarioCuenta">Usuario *</label>
+                    <input id="usuarioCuenta" name="usuario" type="text" autocomplete="username" placeholder="Digita tu usuario" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="claveCuenta">Clave *</label>
+                    <input id="claveCuenta" name="clave" type="password" autocomplete="current-password" placeholder="Digita tu clave" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">Ingresar</button>
+                <button class="btn-secondary" type="button" data-back>Volver al inicio</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- NUEVO: PRAXPAY -->
+    <div class="module-card" id="formPraxpay" hidden>
+        <h2>💳 PRAXPAY</h2>
+        <p class="module-description">Accede al módulo de pagos PRAXPAY con tus credenciales.</p>
+        <form action="/praxpay" method="POST">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="usuarioPraxpay">Usuario *</label>
+                    <input id="usuarioPraxpay" name="usuario" type="text" autocomplete="username" placeholder="Digita tu usuario PRAXPAY" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="clavePraxpay">Clave *</label>
+                    <input id="clavePraxpay" name="clave" type="password" autocomplete="current-password" placeholder="Digita tu clave PRAXPAY" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">Ingresar a PRAXPAY</button>
+                <button class="btn-secondary" type="button" data-back>Volver al inicio</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- NUEVO: MARKET PLACE -->
+    <div class="module-card" id="formMarketplace" hidden>
+        <h2>🛍️ Market Place</h2>
+        <p class="module-description">Explora una solución para conectar tus compras con nuestros servicios logísticos.</p>
+        <div class="option-grid">
+            <button class="option-card" type="button" data-info="marketplace">
+                <h3>🛒 Compras en línea</h3>
+                <p>Consulta cómo gestionar tus compras y coordinar su envío.</p>
+            </button>
+            <button class="option-card" type="button" data-info="casillero">
+                <h3>🌎 Compras internacionales</h3>
+                <p>Accede al formulario de casillero internacional.</p>
+            </button>
+        </div>
+        <div class="module-message" id="mensajeMarketplace"></div>
+        <div class="form-actions"><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+    </div>
+
+    <!-- NUEVO: LOGÍSTICA CORPORATIVA -->
+    <div class="module-card" id="formCorporativa" hidden>
+        <h2>🏢 Logística corporativa</h2>
+        <p class="module-description">Cuéntanos las necesidades logísticas de tu empresa para orientar tu solicitud.</p>
+        <form action="/logistica_corporativa" method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Empresa *</label><input name="empresa" required></div>
+                <div class="form-group"><label>NIT *</label><input name="nit" required></div>
+                <div class="form-group"><label>Nombre de contacto *</label><input name="contacto" required></div>
+                <div class="form-group"><label>Correo empresarial *</label><input name="correo" type="email" required></div>
+                <div class="form-group"><label>Teléfono *</label><input name="telefono" type="tel" required></div>
+                <div class="form-group"><label>Ciudad *</label><input name="ciudad" required></div>
+                <div class="form-group full-width"><label>¿Qué servicios necesitas? *</label><textarea name="servicios" placeholder="Distribución, recogidas, almacenamiento, envíos..." required></textarea></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Solicitar asesoría</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- NUEVO: LOGÍSTICA PARA NEGOCIOS -->
+    <div class="module-card" id="formNegocio" hidden>
+        <h2>🏪 Logística para tu negocio</h2>
+        <p class="module-description">Cuéntanos sobre tu negocio y las entregas que necesitas realizar.</p>
+        <form action="/logistica_negocio" method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Nombre del negocio *</label><input name="negocio" required></div>
+                <div class="form-group"><label>Nombre de contacto *</label><input name="contacto" required></div>
+                <div class="form-group"><label>Teléfono *</label><input name="telefono" type="tel" required></div>
+                <div class="form-group"><label>Correo electrónico *</label><input name="correo" type="email" required></div>
+                <div class="form-group"><label>Ciudad *</label><input name="ciudad" required></div>
+                <div class="form-group"><label>Envíos aproximados al mes</label><input name="envios_mes" type="number" min="0"></div>
+                <div class="form-group full-width"><label>Cuéntanos qué necesitas *</label><textarea name="necesidad" required></textarea></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Solicitar información</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+    <!-- NUEVO: FRANQUICIA -->
+    <div class="module-card" id="formFranquicia" hidden>
+        <h2>🤝 Franquicia PRAXENVÍOS</h2>
+        <p class="module-description">Registra tu interés en conocer las oportunidades de franquicia.</p>
+        <form action="/franquicia" method="POST">
+            <div class="form-grid">
+                <div class="form-group"><label>Nombre completo *</label><input name="nombre" required></div>
+                <div class="form-group"><label>Documento *</label><input name="documento" required></div>
+                <div class="form-group"><label>Teléfono *</label><input name="telefono" type="tel" required></div>
+                <div class="form-group"><label>Correo electrónico *</label><input name="correo" type="email" required></div>
+                <div class="form-group"><label>Ciudad de interés *</label><input name="ciudad" required></div>
+                <div class="form-group"><label>Inversión estimada</label>
+                    <select name="inversion"><option value="">Selecciona</option><option>Por definir</option><option>Menos de $20 millones</option><option>$20 a $50 millones</option><option>Más de $50 millones</option></select>
+                </div>
+                <div class="form-group full-width"><label>Experiencia o comentarios</label><textarea name="comentarios"></textarea></div>
+            </div>
+            <div class="form-actions"><button class="btn-primary">Enviar interés</button><button class="btn-secondary" type="button" data-back>Volver al inicio</button></div>
+        </form>
+    </div>
+
+</section>
+
+<section class="page-content">
+    {% block content %}{% endblock %}
+    {% block body %}{% endblock %}
+</section>
+
+</main>
+
+<footer>
+    <h3>PRAXENVÍOS © 2026</h3>
+    <p>Soluciones logísticas nacionales e internacionales</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Control de todos los menús desplegables
+    const dropdowns = document.querySelectorAll(".dropdown");
+
+    function cerrarMenus() {
+        dropdowns.forEach(function (dropdown) {
+            const menu = dropdown.querySelector(".dropdown-content");
+            const boton = dropdown.querySelector(".dropbtn");
+            menu.classList.remove("show");
+            boton.setAttribute("aria-expanded", "false");
+        });
+    }
+
+    dropdowns.forEach(function (dropdown) {
+        const boton = dropdown.querySelector(".dropbtn");
+        const menu = dropdown.querySelector(".dropdown-content");
+
+        boton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            const abierto = menu.classList.contains("show");
+            cerrarMenus();
+
+            if (!abierto) {
+                menu.classList.add("show");
+                boton.setAttribute("aria-expanded", "true");
+            }
+        });
+
+        menu.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+    });
+
+    document.addEventListener("click", cerrarMenus);
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") cerrarMenus();
+    });
+
+    // Todos los módulos de la página
+    const inicio = document.getElementById("inicioContenido");
+    const zona = document.getElementById("moduloPrincipal");
+
+    const modulos = {
+        registro: "formRegistro",
+        consultaEnvio: "formConsultaEnvio",
+        facturas: "formFacturas",
+        cobros: "formCobros",
+        generarEnvio: "formGenerarEnvio",
+        socio: "formSocio",
+        casillero: "formCasillero",
+        seguros: "formSeguros",
+        cuenta: "formCuenta",
+        praxpay: "formPraxpay",
+        marketplace: "formMarketplace",
+        corporativa: "formCorporativa",
+        negocio: "formNegocio",
+        franquicia: "formFranquicia"
+    };
+
+    function mostrarModulo(nombre) {
+        const id = modulos[nombre];
+        if (!id) return;
+
+        Object.values(modulos).forEach(function (moduloId) {
+            document.getElementById(moduloId).hidden = true;
+        });
+
+        inicio.style.display = "none";
+        zona.classList.add("visible");
+        document.getElementById(id).hidden = false;
+
+        cerrarMenus();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function volverInicio() {
+        Object.values(modulos).forEach(function (moduloId) {
+            document.getElementById(moduloId).hidden = true;
+        });
+
+        zona.classList.remove("visible");
+        inicio.style.display = "";
+        cerrarMenus();
+        history.replaceState(null, "", "/");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("[data-module]").forEach(function (enlace) {
+        enlace.addEventListener("click", function (event) {
+            event.preventDefault();
+            mostrarModulo(enlace.dataset.module);
+        });
+    });
+
+    document.querySelectorAll("[data-back]").forEach(function (boton) {
+        boton.addEventListener("click", volverInicio);
+    });
+
+    document.getElementById("inicioLink").addEventListener("click", function (event) {
+        event.preventDefault();
+        volverInicio();
+    });
+
+    // Detalle dinámico de los cuatro tipos de seguro
+    const descripciones = {
+        "Seguro mercancía": "Consulta opciones de protección para mercancías durante su transporte.",
+        "Seguro vendedores": "Consulta opciones de protección para vendedores y sus operaciones de envío.",
+        "Seguro compradores": "Consulta opciones de protección para compradores y sus pedidos.",
+        "Seguro compra internacional": "Consulta opciones de protección para compras en tiendas internacionales."
+    };
+
+    document.querySelectorAll('input[name="tipo_seguro"]').forEach(function (radio) {
+        radio.addEventListener("change", function () {
+            document.getElementById("tituloSeguro").textContent = radio.value;
+            document.getElementById("descripcionSeguro").textContent = descripciones[radio.value];
+            document.getElementById("detalleSeguro").classList.add("visible");
+
+            document.querySelectorAll(".insurance-option").forEach(function (opcion) {
+                opcion.style.background = "#faf7ff";
+                opcion.style.borderColor = "#e5d5f4";
+            });
+
+            radio.closest(".insurance-option").style.background = "#eee0ff";
+            radio.closest(".insurance-option").style.borderColor = "#6A0DAD";
+        });
+    });
+
+    // Opciones de Marketplace
+    document.querySelectorAll("[data-info]").forEach(function (boton) {
+        boton.addEventListener("click", function () {
+            if (boton.dataset.info === "casillero") {
+                mostrarModulo("casillero");
+                return;
+            }
+
+            const mensaje = document.getElementById("mensajeMarketplace");
+            mensaje.textContent = "Aquí puedes presentar tu catálogo de productos y las tiendas disponibles. Para mostrar productos reales, debes conectarlos con tu catálogo o base de datos.";
+            mensaje.classList.add("visible");
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>
